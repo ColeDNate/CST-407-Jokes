@@ -15,6 +15,7 @@ $password = $_POST['password'];
 echo "<h2>You attempted to login with " . $username . " and " . $password . "</h2>";
 
 $stmt = $conn->prepare ("SELECT user_id, user_name, password FROM users WHERE user_name = ?");
+$stmt->execute();
 
 if ($stmt->rowCount() > 0 ) {
     echo "Found 1 person with that username<br>";
