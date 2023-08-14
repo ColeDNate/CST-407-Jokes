@@ -1,19 +1,19 @@
 <?php
-// PHP Data Objects(PDO) Sample Code:
-try {
-    $privateEndpointAddress = "JokesAccess.default.CST407Network.privatelink.database.windows.net";
-    $port = "1433";
-    
-    $conn = new PDO("sqlsrv:server = tcp:cst407jokes.database.windows.net,1433; Database = cst407jokes", "JokesIsPass123!", "Jokes123!");
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch (PDOException $e) {
-    print("Error connecting to SQL Server.");
-    die(print_r($e));
-}
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 
-// SQL Server Extension Sample Code:
-$connectionInfo = array("UID" => "JokesIsPass123!", "pwd" => "Joke123!", "Database" => "cst407jokes", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
-$serverName = "tcp:cst407jokes.database.windows.net,1433";
-$conn = sqlsrv_connect($serverName, $connectionInfo);
+$privateEndpointAddress = "JokesAccess.default.CST407Network.privatelink.database.windows.net";
+$port = "1433";
+$username = "JokesIsPass123!";
+$password = "Jokes123!";
+$database_in_use = "cst407jokes";
+
+try {
+    $conn = new PDO("sqlsrv:server = tcp:$privateEndpointAddress,$port; Database = $database_in_use", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected to Azure SQL Database successfully<br>";
+} catch (PDOException $e) {
+    echo "Failed to connect to Azure SQL Database: " . $e->getMessage();
+}
 ?>
