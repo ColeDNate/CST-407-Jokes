@@ -14,18 +14,17 @@ $password = $_POST['password'];
 
 echo "<h2>You attempted to login with " . $username . " and " . $password . "</h2>";
 
-$stmt = $mysqli->prepare ("SELECT user_id, user_name, password FROM users WHERE user_name = ?");
-$stmt->bind_param("s", $username);
+$stmt = $conn->prepare ("SELECT user_id, user_name, password FROM users WHERE user_name = ?");
 
 $stmt->execute();
 $stmt->store_result();
 
 $stmt->bind_result($userid, $fetched_name, $fetched_pass);
 
-if ($stmt->num_rows > 0 ) {
+if ($stmt->rowCount() > 0 ) {
     echo "Found 1 person with that username<br>";
-    $stmt->fetch();
-    if (password_verify($password, $fetched_pass)) {
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (password_verify($password, $row['password'])) {
         echo "The password matches<br>";
         echo "Login success<br>"; 
         $_SESSION['username'] = $username;
