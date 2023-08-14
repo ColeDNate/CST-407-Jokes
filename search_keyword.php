@@ -23,30 +23,29 @@ echo "this is our keyword: " . $keywordfromform . "<br>";
 echo "<h2>Show all jokes with the word " . $keywordfromform . "</h2>";
 $keywordfromform = "%" . $keywordfromform . "%";
 
-$stmt = $mysqli->prepare("SELECT JokeID, Joke_question, Joke_answer, jokes_table.user_id, user_name 
-                          FROM jokes.jokes_table JOIN jokes.users 
-                          ON jokes_table.user_id = users.user_id 
-                          WHERE Joke_question LIKE ?");
+// use the PDO connection object instead of the mysqli one
+$stmt = $conn->query("SELECT JokeID, Joke_question, Joke_answer, jokes_table.user_id, user_name 
+                      FROM jokes.jokes_table JOIN jokes.users 
+                      ON jokes_table.user_id = users.user_id 
+                      WHERE Joke_question LIKE ?");
+// use the bindValue method instead of the bind_param one
+$stmt->bindValue(1, "%$keywordfromform%", PDO::PARAM_STR);
+// use the fetchAll method instead of the store_result and bind_result ones
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt->bind_param("s", $keywordfromform);
-
-$stmt->execute();
-$stmt->store_result();
-
-$stmt->bind_result($JokeID, $Joke_question, $Joke_answer, $userid, $username);
-
-
-if ($stmt->num_rows > 0) {
+// use the count function instead of the num_rows property
+if (count($results) > 0) {
     // output data of each row
 
     echo "<div id='accordion'>";
-    while($stmt->fetch()) {
-        $safe_joke_question = htmlspecialchars($Joke_question);
-        $safe_joke_answer = htmlspecialchars($Joke_answer);
+    // use a foreach loop instead of the fetch method
+    foreach ($results as $row) {
+        $safe_joke_question = htmlspecialchars($row['Joke_question']);
+        $safe_joke_answer = htmlspecialchars($row['Joke_answer']);
 
         echo "<h3>" . $safe_joke_question . "</h3>";
-        
-        echo "<div><p>" . $safe_joke_answer  . " -- Submitted by user " . $username ."</p></div>";
+    
+        echo "<div><p>" . $safe_joke_answer  . " -- Submitted by user " . $row['user_name'] ."</p></div>";
     }
 
     echo "</div>";
