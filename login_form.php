@@ -52,7 +52,7 @@ include "db_connect.php";
 <?php
 //include "search_keyword.php";
 
-$mysqli->close();
+$conn = null; 
 
 ?>
 </body>
