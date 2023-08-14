@@ -24,7 +24,7 @@ echo "<h2>Show all jokes with the word " . $keywordfromform . "</h2>";
 $keywordfromform = "%" . $keywordfromform . "%";
 
 // use the PDO connection object instead of the mysqli one
-$stmt = $conn->query("SELECT JokeID, Joke_question, Joke_answer, Jokes_table.user_id, user_name 
+$stmt = $conn->query("SELECT Jokes_table.JokeID, Jokes_table.Joke_question, Jokes_table.Joke_answer, Jokes_table.user_id, users.user_name 
                       FROM Jokes.jokes_table JOIN Jokes.users 
                       ON Jokes_table.user_id = users.user_id 
                       WHERE Joke_question LIKE ?");
