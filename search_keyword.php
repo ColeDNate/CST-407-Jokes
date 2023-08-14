@@ -24,9 +24,9 @@ echo "<h2>Show all jokes with the word " . $keywordfromform . "</h2>";
 $keywordfromform = "%" . $keywordfromform . "%";
 
 // use the PDO connection object instead of the mysqli one
-$stmt = $conn->query("SELECT JokeID, Joke_question, Joke_answer, jokes_table.user_id, user_name 
-                      FROM jokes.jokes_table JOIN jokes.users 
-                      ON jokes_table.user_id = users.user_id 
+$stmt = $conn->query("SELECT JokeID, Joke_question, Joke_answer, Jokes_table.user_id, user_name 
+                      FROM Jokes.jokes_table JOIN Jokes.users 
+                      ON Jokes_table.user_id = users.user_id 
                       WHERE Joke_question LIKE ?");
 // use the bindValue method instead of the bind_param one
 $stmt->bindValue(1, "%$keywordfromform%", PDO::PARAM_STR);
