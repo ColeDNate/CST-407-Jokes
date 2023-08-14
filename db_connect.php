@@ -1,20 +1,16 @@
 <?php
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-
-// modify these settings according to the account on your database server.
-$host = "localhost";
-$port = "3306";
-$username = "root";
-$user_pass = "root";
-$database_in_use = "jokes";
-
-
-$mysqli = new mysqli($host, $username, $user_pass, $database_in_use);
-if ($mysqli->connect_error) {
-    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+// PHP Data Objects(PDO) Sample Code:
+try {
+    $conn = new PDO("sqlsrv:server = tcp:cst407jokes.database.windows.net,1433; Database = cst407jokes", "JokesIsPass123!", "{your_password_here}");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
-echo $mysqli->host_info . "<br>";
+catch (PDOException $e) {
+    print("Error connecting to SQL Server.");
+    die(print_r($e));
+}
 
+// SQL Server Extension Sample Code:
+$connectionInfo = array("UID" => "JokesIsPass123!", "pwd" => "{your_password_here}", "Database" => "cst407jokes", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:cst407jokes.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
 ?>
