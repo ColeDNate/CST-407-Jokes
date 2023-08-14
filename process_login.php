@@ -16,11 +16,6 @@ echo "<h2>You attempted to login with " . $username . " and " . $password . "</h
 
 $stmt = $conn->prepare ("SELECT user_id, user_name, password FROM users WHERE user_name = ?");
 
-$stmt->execute();
-$stmt->store_result();
-
-$stmt->bind_result($userid, $fetched_name, $fetched_pass);
-
 if ($stmt->rowCount() > 0 ) {
     echo "Found 1 person with that username<br>";
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
