@@ -24,10 +24,10 @@ echo "<h2>Show all jokes with the word " . $keywordfromform . "</h2>";
 $keywordfromform = "%" . $keywordfromform . "%";
 
 // use the PDO connection object instead of the mysqli one
-$stmt = $conn->query("SELECT Jokes_table.JokeID, Jokes_table.Joke_question, Jokes_table.Joke_answer, Jokes_table.user_id, users.user_name 
-                      FROM Jokes.jokes_table JOIN Jokes.users 
-                      ON Jokes_table.user_id = users.user_id 
-                      WHERE Joke_question LIKE ?");
+$stmt = $conn->prepare("SELECT JokeID, Joke_question, Joke_answer, user_id, user_name 
+                       FROM jokes_table JOIN users 
+                        ON jokes_table.user_id = users.user_id 
+                        WHERE joke_question LIKE ?");
 // use the bindValue method instead of the bind_param one
 $stmt->bindValue(1, "%$keywordfromform%", PDO::PARAM_STR);
 // use the fetchAll method instead of the store_result and bind_result ones
