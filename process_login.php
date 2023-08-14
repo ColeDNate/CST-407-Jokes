@@ -38,6 +38,7 @@ if ($stmt->rowCount() > 0 ) {
     echo "0 results. Not logged in<br>";
     $_SESSION =  [];
     session_destroy();
+    echo "you got to the error check.";
 }
 
 echo "Session variable = <br>";
