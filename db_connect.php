@@ -3,18 +3,21 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
-// modify these settings according to the account on your database server.
-$host = "localhost";
-$port = "3306";
-$username = "root";
-$user_pass = "root";
-$database_in_use = "jokes";
+// modify these settings according to the account on your Azure SQL database.
+$serverName = "tcp:cst407jokes.database.windows.net,1433"; // update me
+$database = "cst407jokes";
+$username = "JokesIsPass123!";
+$password = "Jokes123!"; 
 
-
-$mysqli = new mysqli($host, $username, $user_pass, $database_in_use);
-if ($mysqli->connect_error) {
-    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+try {
+    //Establishes the connection
+    $conn = new PDO("sqlsrv:server = $serverName; Database = $database", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected successfully";
 }
-echo $mysqli->host_info . "<br>";
+catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+
 
 ?>
